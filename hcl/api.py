@@ -2,8 +2,8 @@
 from typing import TextIO
 
 from lark.tree import Tree as AST
-from hcl2.parser import parser
-from hcl2.transformer import DictTransformer
+from hcl.parser import parser
+from hcl.transformer import DictTransformer
 
 
 def load(file: TextIO, with_meta=False) -> dict:
@@ -42,7 +42,7 @@ def parses(text: str) -> AST:
     """
     # defer this import until this method is called, due to the performance hit
     # of rebuilding the grammar without cache
-    from hcl2.parser import (  # pylint: disable=import-outside-toplevel
+    from hcl.parser import (  # pylint: disable=import-outside-toplevel
         reconstruction_parser,
     )
 
@@ -62,7 +62,7 @@ def reverse_transform(hcl2_dict: dict) -> AST:
     """
     # defer this import until this method is called, due to the performance hit
     # of rebuilding the grammar without cache
-    from hcl2.reconstructor import (  # pylint: disable=import-outside-toplevel
+    from hcl.reconstructor import (  # pylint: disable=import-outside-toplevel
         hcl2_reverse_transformer,
     )
 
@@ -75,7 +75,7 @@ def writes(ast: AST) -> str:
     """
     # defer this import until this method is called, due to the performance hit
     # of rebuilding the grammar without cache
-    from hcl2.reconstructor import (  # pylint: disable=import-outside-toplevel
+    from hcl.reconstructor import (  # pylint: disable=import-outside-toplevel
         hcl2_reconstructor,
     )
 

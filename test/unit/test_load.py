@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 from unittest import TestCase
 
-from hcl2.parser import PARSER_FILE, parser
-import hcl2
+from hcl.parser import PARSER_FILE, parser
+import hcl
 
 
 HELPERS_DIR = Path(__file__).absolute().parent.parent / "helpers"
@@ -47,7 +47,7 @@ class TestLoad(TestCase):
 
         with hcl_path.open("r") as hcl_file, json_path.open("r") as json_file:
             try:
-                hcl2_dict = hcl2.load(hcl_file)
+                hcl2_dict = hcl.load(hcl_file)
             except Exception as exc:
                 assert False, f"failed to tokenize terraform in `{hcl_path_str}`: {exc}"
 

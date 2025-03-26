@@ -33,15 +33,15 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-Homepage = "https://github.com/amplify-education/python-hcl2"
+Homepage = "https://github.com/Facets-cloud/python-hcl2"
 
 [project.scripts]
-hcl2tojson = "hcl2.__main__:main"
+hcl2tojson = "hcl.__main__:main"
 
 [tool.setuptools]
-packages = ["hcl2"]
+packages = ["hcl"]
 zip-safe = false
 include-package-data = true
 
 [tool.setuptools_scm]
-write_to = "hcl2/version.py"
+write_to = "hcl/version.py"

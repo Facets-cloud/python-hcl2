@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from unittest import TestCase
 
-import hcl2
+import hcl
 
 TEST_WITH_META_DIR = Path(__file__).absolute().parent.parent / "helpers" / "with-meta"
 TF_FILE_PATH = TEST_WITH_META_DIR / "data_sources.tf"
@@ -19,5 +19,5 @@ class TestLoadWithMeta(TestCase):
         with TF_FILE_PATH.open("r") as tf_file, JSON_FILE_PATH.open("r") as json_file:
             self.assertDictEqual(
                 json.load(json_file),
-                hcl2.load(tf_file, with_meta=True),
+                hcl.load(tf_file, with_meta=True),
             )

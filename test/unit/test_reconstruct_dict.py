@@ -5,7 +5,7 @@ import traceback
 from pathlib import Path
 from unittest import TestCase
 
-import hcl2
+import hcl
 
 
 HELPERS_DIR = Path(__file__).absolute().parent.parent / "helpers"
@@ -48,7 +48,7 @@ class TestReconstruct(TestCase):
         json_path = JSON_DIR / hcl_path.relative_to(HCL2_DIR).with_suffix(".json")
         with hcl_path.open("r") as hcl_file, json_path.open("r") as json_file:
             try:
-                hcl2_dict_correct = hcl2.load(hcl_file)
+                hcl2_dict_correct = hcl.load(hcl_file)
             except Exception as exc:
                 raise RuntimeError(
                     f"failed to tokenize 'correct' terraform in "
@@ -58,7 +58,7 @@ class TestReconstruct(TestCase):
             json_dict = json.load(json_file)
 
             try:
-                hcl_ast = hcl2.reverse_transform(json_dict)
+                hcl_ast = hcl.reverse_transform(json_dict)
             except Exception as exc:
                 raise RuntimeError(
                     f"failed to reverse transform HCL from "
@@ -66,7 +66,7 @@ class TestReconstruct(TestCase):
                 ) from exc
 
             try:
-                hcl_reconstructed = hcl2.writes(hcl_ast)
+                hcl_reconstructed = hcl.writes(hcl_ast)
             except Exception as exc:
                 raise RuntimeError(
                     f"failed to reconstruct terraform from AST from "
@@ -74,7 +74,7 @@ class TestReconstruct(TestCase):
                 ) from exc
 
             try:
-                hcl2_dict_reconstructed = hcl2.loads(hcl_reconstructed)
+                hcl2_dict_reconstructed = hcl.loads(hcl_reconstructed)
             except Exception as exc:
                 raise RuntimeError(
                     f"failed to tokenize 'reconstructed' terraform from AST from "

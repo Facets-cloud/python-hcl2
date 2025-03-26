@@ -10,7 +10,7 @@ from lark.lexer import Token, PatternStr, TerminalDef
 from lark.reconstruct import Reconstructor
 from lark.tree_matcher import is_discarded_terminal
 from lark.visitors import Transformer_InPlace
-from hcl2.parser import reconstruction_parser
+from hcl.parser import reconstruction_parser
 
 
 # function to remove the backslashes within interpolated portions
@@ -340,7 +340,7 @@ class HCLReconstructor(Reconstructor):
 
 class HCLReverseTransformer:
     """
-    The reverse of hcl2.transformer.DictTransformer. This method attempts to
+    The reverse of hcl.transformer.DictTransformer. This method attempts to
     convert a dict back into a working AST, which can be written back out.
     """
 

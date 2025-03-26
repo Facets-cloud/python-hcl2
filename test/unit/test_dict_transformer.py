@@ -2,11 +2,11 @@
 
 from unittest import TestCase
 
-from hcl2.transformer import DictTransformer
+from hcl.transformer import DictTransformer
 
 
 class TestDictTransformer(TestCase):
-    """Test behaviour of hcl2.transformer.DictTransformer class"""
+    """Test behaviour of hcl.transformer.DictTransformer class"""
 
     @staticmethod
     def build_dict_transformer(with_meta: bool = False) -> DictTransformer:
