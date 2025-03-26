@@ -2,8 +2,8 @@
 
 from lark import Tree
 
-from hcl2.parser import parser
-from hcl2.transformer import DictTransformer
+from hcl.parser import parser
+from hcl.transformer import DictTransformer
 
 
 class Hcl2Helper:

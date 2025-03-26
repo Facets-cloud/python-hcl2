@@ -6,9 +6,12 @@ also: [Limitations](#limitations)
 
 There are three major phases:
 
-- [Building a Python Dictionary](#building-a-python-dictionary)
-- [Building an AST](#building-an-ast)
-- [Reconstructing the file from the AST](#reconstructing-the-file-from-the-ast)
+- [Writing HCL2 from Python](#writing-hcl2-from-python)
+  - [Example](#example)
+    - [Building a Python dictionary](#building-a-python-dictionary)
+    - [Building an AST](#building-an-ast)
+    - [Reconstructing the file from the AST](#reconstructing-the-file-from-the-ast)
+  - [Limitations](#limitations)
 
 ## Example
 
@@ -21,12 +24,12 @@ resource "aws_s3_bucket" "bucket" {
 }
 ```
 
-You can use the `hcl2.Builder` class like so:
+You can use the `hcl.Builder` class like so:
 
 ```python
-import hcl2
+import hcl
 
-example = hcl2.Builder()
+example = hcl.Builder()
 
 example.block(
     "resource",
@@ -36,8 +39,8 @@ example.block(
 )
 
 example_dict = example.build()
-example_ast = hcl2.reverse_transform(example_dict)
-example_file = hcl2.writes(example_ast)
+example_ast = hcl.reverse_transform(example_dict)
+example_file = hcl.writes(example_ast)
 
 print(example_file)
 # resource "aws_s3_bucket" "bucket" {
@@ -51,12 +54,12 @@ This demonstrates a couple of different phases of the process worth mentioning.
 
 ### Building a Python dictionary
 
-The `hcl2.Builder` class produces a dictionary that should be identical to the
-output of `hcl2.load(example_file, with_meta=True)`. The `with_meta` keyword
+The `hcl.Builder` class produces a dictionary that should be identical to the
+output of `hcl.load(example_file, with_meta=True)`. The `with_meta` keyword
 argument is important here. HCL "blocks" in the Python dictionary are
 identified by the presence of `__start_line__` and `__end_line__` metadata
 within them. The `Builder` class handles adding that metadata. If that metadata
-is missing, the `hcl2.reconstructor.HCLReverseTransformer` class fails to
+is missing, the `hcl.reconstructor.HCLReverseTransformer` class fails to
 identify what is a block and what is just an attribute with an object value.
 Without that metadata, this dictionary:
 
@@ -95,14 +98,14 @@ as desired by the user. Therefore, using the `Builder` class is recommended.)
 
 ### Building an AST
 
-The `hcl2.reconstructor.HCLReconstructor` class operates on an "abstract
-syntax tree" (`hcl2.AST` or `Lark.Tree`, they're the same.) To produce this AST
-from scratch in Python, use `hcl2.reverse_transform(hcl_dict)`, and to produce
-this AST from an existing HCL file, use `hcl2.parse(hcl_file)`.
+The `hcl.reconstructor.HCLReconstructor` class operates on an "abstract
+syntax tree" (`hcl.AST` or `Lark.Tree`, they're the same.) To produce this AST
+from scratch in Python, use `hcl.reverse_transform(hcl_dict)`, and to produce
+this AST from an existing HCL file, use `hcl.parse(hcl_file)`.
 
 You can also build these ASTs manually, if you want more control over the
 generated HCL output. If you do this, though, make sure the AST you generate is
-valid within the `hcl2.lark` grammar.
+valid within the `hcl.lark` grammar.
 
 Here's an example, which would add a "tags" element to that `example.tf` file
 mentioned above.
@@ -110,7 +113,7 @@ mentioned above.
 ```python
 from copy import deepcopy
 from lark import Token, Tree
-import hcl2
+import hcl
 
 
 def build_tags_tree(base_indent: int = 0) -> Tree:
@@ -216,9 +219,9 @@ def process_tree(node: Tree, depth=0) -> Tree:
 
 
 def main():
-    tree = hcl2.parse(open('example.tf'))
+    tree = hcl.parse(open('example.tf'))
     new_tree = process_tree(tree)
-    reconstructed = hcl2.writes(new_tree)
+    reconstructed = hcl.writes(new_tree)
     open('example_reconstructed.tf', 'w').write(reconstructed)
 
 
@@ -230,12 +233,12 @@ if __name__ == "__main__":
 ### Reconstructing the file from the AST
 
 Once the AST has been generated, you can convert it back to valid HCL using
-`hcl2.writes(ast)`. In the above example, that conversion is done in the
+`hcl.writes(ast)`. In the above example, that conversion is done in the
 `main()` function.
 
 ## Limitations
 
-- Some formatting choices are impossible to specify via `hcl2.Builder()` and
+- Some formatting choices are impossible to specify via `hcl.Builder()` and
   require manual intervention of the AST produced after the `reverse_transform`
   step.
 

@@ -5,8 +5,8 @@
 from pathlib import Path
 from unittest import TestCase
 
-import hcl2
-import hcl2.builder
+import hcl
+import hcl.builder
 
 
 HELPERS_DIR = Path(__file__).absolute().parent.parent / "helpers"
@@ -22,7 +22,7 @@ class TestBuilder(TestCase):
     maxDiff = None
 
     def test_build_blocks_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         builder.block("block", a=1)
         builder.block("block", ["label"], b=2)
@@ -30,14 +30,14 @@ class TestBuilder(TestCase):
         self.compare_filenames(builder, "blocks.tf")
 
     def test_build_escapes_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         builder.block("block", ["block_with_newlines"], a="line1\nline2")
 
         self.compare_filenames(builder, "escapes.tf")
 
     def test_locals_embdedded_condition_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         builder.block(
             "locals",
@@ -51,7 +51,7 @@ class TestBuilder(TestCase):
         self.compare_filenames(builder, "locals_embedded_condition.tf")
 
     def test_locals_embedded_function_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         function_test = (
             "${var.basename}-${var.forwarder_function_name}_"
@@ -62,7 +62,7 @@ class TestBuilder(TestCase):
         self.compare_filenames(builder, "locals_embedded_function.tf")
 
     def test_locals_embedded_interpolation_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         embedded_interpolation = (
             "(long substring without interpolation); ${module.special_constants.aws_accounts"
@@ -74,7 +74,7 @@ class TestBuilder(TestCase):
         self.compare_filenames(builder, "locals_embedded_interpolation.tf")
 
     def test_provider_function_tf(self):
-        builder = hcl2.Builder()
+        builder = hcl.Builder()
 
         builder.block(
             "locals",
@@ -84,10 +84,10 @@ class TestBuilder(TestCase):
 
         self.compare_filenames(builder, "provider_function.tf")
 
-    def compare_filenames(self, builder: hcl2.Builder, filename: str):
+    def compare_filenames(self, builder: hcl.Builder, filename: str):
         hcl_dict = builder.build()
-        hcl_ast = hcl2.reverse_transform(hcl_dict)
-        hcl_content_built = hcl2.writes(hcl_ast)
+        hcl_ast = hcl.reverse_transform(hcl_dict)
+        hcl_content_built = hcl.writes(hcl_ast)
 
         hcl_path = (HCL2_DIR / filename).absolute()
         with hcl_path.open("r") as hcl_file:

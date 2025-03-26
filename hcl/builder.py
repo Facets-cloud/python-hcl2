@@ -5,12 +5,12 @@ from typing import List, Optional
 
 class Builder:
     """
-    The `hcl2.Builder` class produces a dictionary that should be identical to the
-    output of `hcl2.load(example_file, with_meta=True)`. The `with_meta` keyword
+    The `hcl.Builder` class produces a dictionary that should be identical to the
+    output of `hcl.load(example_file, with_meta=True)`. The `with_meta` keyword
     argument is important here. HCL "blocks" in the Python dictionary are
     identified by the presence of `__start_line__` and `__end_line__` metadata
     within them. The `Builder` class handles adding that metadata. If that metadata
-    is missing, the `hcl2.reconstructor.HCLReverseTransformer` class fails to
+    is missing, the `hcl.reconstructor.HCLReverseTransformer` class fails to
     identify what is a block and what is just an attribute with an object value.
     """
 

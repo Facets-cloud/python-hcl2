@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from unittest import TestCase
 
-import hcl2
+import hcl
 
 
 HELPERS_DIR = Path(__file__).absolute().parent.parent / "helpers"
@@ -62,19 +62,19 @@ class TestReconstruct(TestCase):
         with hcl_path.open("r") as hcl_file, json_path.open("r") as json_file:
             hcl_file_content = hcl_file.read()
             try:
-                hcl_ast = hcl2.parses(hcl_file_content)
+                hcl_ast = hcl.parses(hcl_file_content)
             except Exception as exc:
                 assert False, f"failed to tokenize terraform in `{hcl_path_str}`: {exc}"
 
             try:
-                hcl_reconstructed = hcl2.writes(hcl_ast)
+                hcl_reconstructed = hcl.writes(hcl_ast)
             except Exception as exc:
                 assert (
                     False
                 ), f"failed to reconstruct terraform in `{hcl_path_str}`: {exc}"
 
             try:
-                hcl2_dict = hcl2.loads(hcl_reconstructed)
+                hcl2_dict = hcl.loads(hcl_reconstructed)
             except Exception as exc:
                 assert (
                     False
@@ -93,12 +93,12 @@ class TestReconstruct(TestCase):
         with hcl_path.open("r") as hcl_file:
             hcl_file_content = hcl_file.read()
             try:
-                hcl_ast = hcl2.parses(hcl_file_content)
+                hcl_ast = hcl.parses(hcl_file_content)
             except Exception as exc:
                 assert False, f"failed to tokenize terraform in `{hcl_path_str}`: {exc}"
 
             try:
-                hcl_reconstructed = hcl2.writes(hcl_ast)
+                hcl_reconstructed = hcl.writes(hcl_ast)
             except Exception as exc:
                 assert (
                     False

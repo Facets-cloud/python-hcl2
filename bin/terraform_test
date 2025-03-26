@@ -12,8 +12,8 @@ Options:
 import argparse
 import os
 
-from hcl2 import load
-from hcl2.version import __version__
+from hcl import load
+from hcl.version import __version__
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

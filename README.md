@@ -37,9 +37,9 @@ pip3 install python-hcl2
 ### Usage
 
 ```python
-import hcl2
+import hcl
 with open('foo.tf', 'r') as file:
-    dict = hcl2.load(file)
+    dict = hcl.load(file)
 ```
 
 ### Parse Tree to HCL2 reconstruction
