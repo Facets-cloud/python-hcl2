@@ -3,8 +3,8 @@ requires = ["setuptools>=61.2.0", "wheel", "setuptools_scm[toml]>=3.4.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "python-hcl2"
-authors = [{name = "Amplify Education", email = "github@amplify.com"}]
+name = "facets-hcl"
+authors = [{name = "Sanmesh Kakade", email = "sanmesh.kakade@facets.cloud"}]
 license = {text = "MIT"}
 description = "A parser for HCL2"
 keywords = []
